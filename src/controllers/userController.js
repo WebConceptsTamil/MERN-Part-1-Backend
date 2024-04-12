@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
-import { json } from "express";
+
 
 const createUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -93,6 +93,7 @@ const logout = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Logged out.." });
 });
 
+
 const getProfile = asyncHandler(async (req, res) => {
   const user = {
     _id: req.user._id,
@@ -105,8 +106,8 @@ const getProfile = asyncHandler(async (req, res) => {
 const updateProfile = asyncHandler(async (req, res) => {
   const { password } = req.body;
 
-  if (password.length < 8) {
-    res.status(400);
+  if (password && password.length < 8) { //check for password if present
+    res.status(400); 
     throw new Error("Password must be atleast 8 charecters");
   }
 
